@@ -388,8 +388,7 @@ Poset <- R6::R6Class(
           self$reduced_matrix)
         g2$layout <- as.matrix(vertices)
 
-        pl <- graph_plot(g2, node_label = name) +
-          theme_graph()
+        pl <- graph_plot(g2, node_label = name)
         # g2 <- g2 |>
         #   tidygraph::as_tbl_graph()
         # tidygraph::.register_graph_context(g2)

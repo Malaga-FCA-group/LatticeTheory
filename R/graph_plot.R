@@ -12,7 +12,7 @@ graph_plot <- function(graph, ...,
   node_label <- rlang::enquo(node_label)
   edge_label <- rlang::enquo(edge_label)
   graph <- tidygraph::as_tbl_graph(graph)
-  tidygraph::.register_graph_context(graph, TRUE)
+  # tidygraph::.register_graph_context(graph, TRUE)
   # {
   p <- suppressMessages(ggraph::ggraph(graph) + ggplot2::coord_fixed())
   if (!rlang::quo_is_null(node_label)) {
