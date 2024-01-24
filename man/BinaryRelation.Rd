@@ -11,14 +11,14 @@ Binary Relation
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{BinaryRelation$new()}}
-\item \href{#method-print}{\code{BinaryRelation$print()}}
-\item \href{#method-clone}{\code{BinaryRelation$clone()}}
+\item \href{#method-BinaryRelation-new}{\code{BinaryRelation$new()}}
+\item \href{#method-BinaryRelation-print}{\code{BinaryRelation$print()}}
+\item \href{#method-BinaryRelation-clone}{\code{BinaryRelation$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-BinaryRelation-new"></a>}}
+\if{latex}{\out{\hypertarget{method-BinaryRelation-new}{}}}
 \subsection{Method \code{new()}}{
 Constructor of a Binary Relation
 \subsection{Usage}{
@@ -41,8 +41,8 @@ The BinaryRelation object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-BinaryRelation-print"></a>}}
+\if{latex}{\out{\hypertarget{method-BinaryRelation-print}{}}}
 \subsection{Method \code{print()}}{
 Prints the BinaryRelation
 \subsection{Usage}{
@@ -51,8 +51,8 @@ Prints the BinaryRelation
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-BinaryRelation-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-BinaryRelation-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

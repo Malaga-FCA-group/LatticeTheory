@@ -2,6 +2,8 @@
 
 export("%>%")
 export(BinaryRelation)
+export(Lattice)
+export(Poset)
 importFrom(Rcpp,sourceCpp)
 importFrom(lifecycle,deprecated)
 importFrom(magrittr,"%>%")

@@ -4,7 +4,7 @@
 \name{LatticeTheory-package}
 \alias{LatticeTheory}
 \alias{LatticeTheory-package}
-\title{LatticeTheory: What the Package Does (One Line, Title Case)}
+\title{LatticeTheory: Managing of lattices}
 \description{
 What the package does (one paragraph).
 }
