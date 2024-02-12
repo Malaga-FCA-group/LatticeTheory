@@ -115,18 +115,18 @@ boole <- function(n) {
 }
 
 
-is_lattice <- function(order,
+is_lattice <- function(P,
                        verbose = FALSE) {
 
-  L <- Lattice$new(order)
+  stopifnot(inherits(P, "Poset"))
 
-  for (x in L$names) {
+  for (x in P$names) {
 
-    for (y in L$names) {
+    for (y in P$names) {
 
       if (x == y) next
 
-      S <- L$supremum(c(x, y))
+      S <- P$supremum(c(x, y))
       if (length(S) != 1) {
         if (verbose) {
 
@@ -136,14 +136,11 @@ is_lattice <- function(order,
           cat("\n")
 
         }
-        # cat("Supremum:\n")
-        # print(x)
-        # print(y)
-        # print(S)
+
         return(FALSE)
       }
 
-      I <- L$infimum(c(x, y))
+      I <- P$infimum(c(x, y))
       if (length(I) != 1) {
 
         if (verbose) {
@@ -155,10 +152,6 @@ is_lattice <- function(order,
 
         }
 
-        # cat("Infimum:\n")
-        # print(x)
-        # print(y)
-        # print(I)
         return(FALSE)
       }
 
