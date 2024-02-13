@@ -1,3 +1,12 @@
+#' Lattice of divisors
+#'
+#' @param n The number in the top of the lattice
+#'
+#' @return A Lattice object
+#' @export
+#'
+#' @examples
+#' P <- divisors_lattice(60)
 divisors_lattice <- function(n) {
 
 
@@ -50,6 +59,16 @@ divisors_lattice <- function(n) {
 
 }
 
+#' Chain
+#'
+#' @param ... The number of elements (single input) or the list of elements
+#'
+#' @return A chain lattice with the given configuration.
+#' @export
+#'
+#' @examples
+#' C1 <- chain(7)
+#' C2 <- chain("a", "b", "c")
 chain <- function(...) {
 
   arg <- list(...) |> unlist()
@@ -72,6 +91,15 @@ chain <- function(...) {
 
 }
 
+#' Antichain
+#'
+#' @param n Number of incomparable elements
+#'
+#' @return An antichain.
+#' @export
+#'
+#' @examples
+#' A <- antichain(3)
 antichain <- function(n) {
 
   I <- matrix(0, ncol = n + 2, nrow = n + 2)
@@ -84,12 +112,26 @@ antichain <- function(n) {
 
 }
 
+#' Diamond Lattice
+#'
+#' @return A Lattice object representing the diamond lattice.
+#' @export
+#'
+#' @examples
+#' D <- diamond()
 diamond <- function() {
 
   antichain(3)
 
 }
 
+#' Pentagon Lattice
+#'
+#' @return A Lattice object representing the pentagon lattice
+#' @export
+#'
+#' @examples
+#' P <- pentagon()
 pentagon <- function() {
 
   M <- matrix(0, ncol = 5, nrow = 5)
@@ -105,6 +147,15 @@ pentagon <- function() {
 
 }
 
+#' Boole Algebra
+#'
+#' @param n Number of atoms in the Boole algebra
+#'
+#' @return A Lattice object representing the Boole algebra with n atoms.
+#' @export
+#'
+#' @examples
+#' B <- boole(2)
 boole <- function(n) {
 
   prims <- primes::generate_n_primes(n)

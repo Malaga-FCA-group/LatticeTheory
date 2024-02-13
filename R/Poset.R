@@ -58,8 +58,9 @@ Poset <- R6::R6Class(
         "Poset with {length(self$names)} elements."
       ) |> cat()
 
-      cat("\n")
-      print(private$poset)
+      print_poset(self$order)
+      # cat("\n")
+      # print(private$poset)
 
     },
 
@@ -362,6 +363,27 @@ Poset <- R6::R6Class(
       L <- chain(order)
 
       return(L)
+
+    },
+
+    #' @description
+    #' Convert to Lattice
+    #'
+    #' @return
+    #' A Lattice object if this poset is actually a lattice, otherwise it is returned unmodified.
+    #'
+    #' @export
+    to_lattice = function() {
+
+      if (is_lattice(self)) {
+
+        return(Lattice$new(self$order))
+
+      } else {
+
+        return(self)
+
+      }
 
     },
 

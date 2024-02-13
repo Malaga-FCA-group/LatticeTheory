@@ -22,9 +22,11 @@ Lattice <- R6::R6Class(
         "Lattice with {length(self$names)} elements."
       ) |> cat()
 
-      cat("\n")
+      print_poset(self$order)
 
-      print(private$poset)
+      # cat("\n")
+      #
+      # print(private$poset)
 
     },
 

@@ -37,6 +37,7 @@ This class implements the data structure and methods for partial ordered sets.
 \item \href{#method-Poset-upper_neighbours}{\code{Poset$upper_neighbours()}}
 \item \href{#method-Poset-is_lower_than}{\code{Poset$is_lower_than()}}
 \item \href{#method-Poset-linear_extension}{\code{Poset$linear_extension()}}
+\item \href{#method-Poset-to_lattice}{\code{Poset$to_lattice()}}
 \item \href{#method-Poset-plot}{\code{Poset$plot()}}
 \item \href{#method-Poset-latex}{\code{Poset$latex()}}
 \item \href{#method-Poset-as_graph}{\code{Poset$as_graph()}}
@@ -361,6 +362,19 @@ Linear extension of poset
 
 \subsection{Returns}{
 Another poset which is a linear extension of this.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Poset-to_lattice"></a>}}
+\if{latex}{\out{\hypertarget{method-Poset-to_lattice}{}}}
+\subsection{Method \code{to_lattice()}}{
+Convert to Lattice
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Poset$to_lattice()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A Lattice object if this poset is actually a lattice, otherwise it is returned unmodified.
 }
 }
 \if{html}{\out{<hr>}}
