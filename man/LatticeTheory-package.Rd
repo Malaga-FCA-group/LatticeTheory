@@ -6,10 +6,15 @@
 \alias{LatticeTheory-package}
 \title{LatticeTheory: Managing of lattices}
 \description{
-What the package does (one paragraph).
+Functions and data structures to work with posets and lattices.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Domingo Lopez Rodriguez \email{dominlopez@uma.es} (\href{https://orcid.org/0000-0002-0172-1585}{ORCID})
+
+Authors:
+\itemize{
+  \item Manuel Ojeda Hernández \email{manuojeda@uma.es}
+}
 
 }
 \keyword{internal}

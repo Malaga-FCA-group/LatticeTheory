@@ -2,20 +2,33 @@ Package: LatticeTheory
 Title: Managing of lattices
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: MIT
+    c(person(given = "Domingo",
+             family = "Lopez Rodriguez",
+             role = c("aut", "cre"),
+             email = "dominlopez@uma.es",
+             comment = c(ORCID = "0000-0002-0172-1585")),
+      person(given = "Manuel",
+             family = "Ojeda Hernández",
+             role = c("aut"),
+             email = "manuojeda@uma.es"))
+Description: Functions and data structures to work with posets and lattices.
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3.9000
 Suggests: 
+    fcaR,
+    hasseDiagram,
     covr,
     testthat (>= 3.0.0)
 Imports: 
+    POSetR,
+    igraph,
+    glue,
+    parsec,
+    stringr,
     ggplot2,
     ggraph,
-    ggnetwork,
     lifecycle,
     magrittr,
     Matrix,
@@ -25,6 +38,4 @@ Imports:
     rlang,
     tidygraph,
     sfsmisc
-LinkingTo: 
-    Rcpp
 Config/testthat/edition: 3

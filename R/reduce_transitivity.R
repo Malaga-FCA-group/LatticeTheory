@@ -1,3 +1,4 @@
+#' @importFrom Matrix Diagonal
 .reduce_transitivity <- function(M) {
 
   D <- Matrix::Diagonal(n = ncol(M))

@@ -1,4 +1,5 @@
 #' Binary Relation
+#' @export
 BinaryRelation <- R6::R6Class(
 
   classname = "BinaryRelation",

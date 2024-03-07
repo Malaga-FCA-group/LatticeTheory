@@ -5,10 +5,11 @@
 #' @return A Lattice object
 #' @export
 #'
+#' @importFrom sfsmisc factorize
+#' @importFrom utils combn
 #' @examples
 #' P <- divisors_lattice(60)
 divisors_lattice <- function(n) {
-
 
   factorization <- sfsmisc::factorize(n)[[1]]
 
@@ -66,6 +67,7 @@ divisors_lattice <- function(n) {
 #' @return A chain lattice with the given configuration.
 #' @export
 #'
+#' @importFrom POSetR chain incidenceMatrix
 #' @examples
 #' C1 <- chain(7)
 #' C2 <- chain("a", "b", "c")
@@ -154,6 +156,8 @@ pentagon <- function() {
 #' @return A Lattice object representing the Boole algebra with n atoms.
 #' @export
 #'
+#' @importFrom primes generate_n_primes
+#'
 #' @examples
 #' B <- boole(2)
 boole <- function(n) {
@@ -165,7 +169,7 @@ boole <- function(n) {
 
 }
 
-
+#' @importFrom glue glue
 is_lattice <- function(P,
                        verbose = FALSE) {
 

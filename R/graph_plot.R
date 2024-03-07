@@ -1,3 +1,8 @@
+#' @importFrom rlang enquo quo_is_null quo_text sym
+#' @importFrom tidygraph as_tbl_graph
+#' @importFrom ggraph ggraph geom_edge_link label_rect geom_edge_link0 geom_node_point geom_node_text theme_graph
+#' @importFrom ggplot2 coord_fixed aes
+#' @importFrom grid unit
 graph_plot <- function(graph, ...,
                        node_colour = NULL,
                        edge_colour = NULL,

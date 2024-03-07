@@ -16,6 +16,8 @@ Lattice <- R6::R6Class(
     #'
     #' @export
     #'
+    #' @importFrom glue glue
+    #'
     print = function() {
 
       glue::glue(
@@ -23,10 +25,6 @@ Lattice <- R6::R6Class(
       ) |> cat()
 
       print_poset(self$order)
-
-      # cat("\n")
-      #
-      # print(private$poset)
 
     },
 
@@ -38,7 +36,6 @@ Lattice <- R6::R6Class(
     top = function() {
 
       super$maximum()
-      # self$names[which(Matrix::colSums(t(self$order)) == self$size())]
 
     },
 
@@ -50,21 +47,8 @@ Lattice <- R6::R6Class(
     bottom = function() {
 
       super$minimum()
-      # self$names[which(Matrix::colSums(t(self$order)) == 1)]
 
     },
-
-    # maximals = function(B) {
-    #
-    #   B[Matrix::which(Matrix::colSums(self$order[B, B]) == 1)]
-    #
-    # },
-    #
-    # minimals = function(B) {
-    #
-    #   B[Matrix::which(Matrix::rowSums(self$order[B, B]) == 1)]
-    #
-    # },
 
     #' @description
     #' Join-irreducible Elements
@@ -73,6 +57,7 @@ Lattice <- R6::R6Class(
     #' The join-irreducible elements in the lattice.
     #'
     #' @export
+    #' @importFrom Matrix colSums t
     #'
     join_irreducibles = function() {
 
@@ -87,6 +72,7 @@ Lattice <- R6::R6Class(
     #' The meet-irreducible elements in the lattice.
     #'
     #' @export
+    #' @importFrom Matrix colSums
     meet_irreducibles = function() {
 
       M <- .reduce_transitivity(self$order)
@@ -96,7 +82,7 @@ Lattice <- R6::R6Class(
     },
 
     #' @description
-        #' Atoms of a lattice
+    #' Atoms of a lattice
     #' @return The atoms of the lattice.
     #' @export
     atoms = function() {
@@ -116,10 +102,11 @@ Lattice <- R6::R6Class(
     },
 
     #' @description
-        #' Complement(s) of a lattice element
+    #' Complement(s) of a lattice element
     #' @param a Name of an element
     #' @return The name of the complement elements, if any; \code{NULL}, otherwise.
     #' @export
+    #' @importFrom Matrix which rowSums colSums
     complements = function(a) {
 
       idx <- Matrix::which(self$order[, a] > 0)
@@ -136,7 +123,7 @@ Lattice <- R6::R6Class(
     },
 
     #' @description
-        #' Interval in a lattice
+    #' Interval in a lattice
     #' @param a First (lower) element
     #' @param b Secod (greater) element
     #' @return The elements which are greater than or equal to \code{a} and lower than or equal to \code{b}.
@@ -148,11 +135,13 @@ Lattice <- R6::R6Class(
     },
 
     #' @description
-        #' Chains in a lattice
+    #' Chains in a lattice
     #' @param a First (lower) element
     #' @param b Secod (greater) element
     #' @return The chains starting at \code{a} and ending in \code{b}.
     #' @export
+    #' @importFrom Matrix t
+    #' @importFrom igraph graph_from_adjacency_matrix all_simple_paths
     chains = function(a, b) {
 
       if (self$order[a, b]) {
@@ -171,7 +160,7 @@ Lattice <- R6::R6Class(
     },
 
     #' @description
-        #' Standard context
+    #' Standard context
     #' @return A formal context (in \code{fcaR} is installed) or a matrix of a context whose associated concept lattice is (isomorphic to) the current lattice.
     #' @export
     context = function() {
@@ -180,13 +169,10 @@ Lattice <- R6::R6Class(
       M <- self$meet_irreducibles()
 
       I <- self$order[J, M]
-      # I <- double_sort2(I)#reorder_matrix_standard2(I)
-      rownames(I) <- J#glue::glue("j{seq_along(J)}")
-      colnames(I) <- M#glue::glue("m{seq_along(M)}")
+      rownames(I) <- J
+      colnames(I) <- M
 
-      if ("fcaR" %in% installed.packages()) {
-
-        # require(fcaR)
+      if (requireNamespace("fcaR")) {
 
         fc <- fcaR::FormalContext$new(I)
         return(fc)
@@ -198,7 +184,7 @@ Lattice <- R6::R6Class(
     },
 
     #' @description
-        #' Dual of the lattice
+    #' Dual of the lattice
     #' @return Another lattice where the order is reversed.
     #' @export
     dual = function() {

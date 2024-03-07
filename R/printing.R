@@ -1,3 +1,5 @@
+#' @importFrom glue glue
+#' @importFrom stringr str_flatten_comma
 print_poset <- function(A) {
 
   elements <- colnames(A)

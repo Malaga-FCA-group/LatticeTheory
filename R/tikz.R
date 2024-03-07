@@ -1,3 +1,5 @@
+#' @importFrom parsec incidence2cover.incidence vertices
+#' @importFrom glue glue
 tikz_lattice <- function(L,
                          # label = "",
                          # caption = "",

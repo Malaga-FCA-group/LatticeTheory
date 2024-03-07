@@ -4,6 +4,7 @@
 #' @description
 #' This class implements the data structure and methods for partial ordered sets.
 #' @export
+#' @importFrom R6 R6Class
 Poset <- R6::R6Class(
 
   classname = "Poset",
@@ -24,6 +25,7 @@ Poset <- R6::R6Class(
     #'
     #' @return An object of class Poset
     #' @export
+    #' @importFrom POSetR poset_from_incidence
     #'
     initialize = function(order, names = colnames(order)) {
 
@@ -44,13 +46,14 @@ Poset <- R6::R6Class(
       self$names <- names
       self$order <- order
       private$poset <- POSetR::poset_from_incidence(t(order))
-      self$reduced_matrix <- fcaR:::.reduce_transitivity(self$order)
+      self$reduced_matrix <- .reduce_transitivity(self$order)
 
     },
 
     #' @description Print a Poset
     #'
     #' @export
+    #' @importFrom glue glue
     #'
     print = function() {
 
@@ -59,8 +62,6 @@ Poset <- R6::R6Class(
       ) |> cat()
 
       print_poset(self$order)
-      # cat("\n")
-      # print(private$poset)
 
     },
 
@@ -86,6 +87,7 @@ Poset <- R6::R6Class(
     #' The maximals of the specified elements
     #'
     #' @export
+    #' @importFrom Matrix which colSums
     maximals = function(...) {
 
       B <- list(...) |> unlist()
@@ -130,6 +132,7 @@ Poset <- R6::R6Class(
     #' The minimals of the specified elements.
     #'
     #' @export
+    #' @importFrom Matrix which rowSums
     minimals = function(...) {
 
       B <- list(...) |> unlist()
@@ -274,6 +277,7 @@ Poset <- R6::R6Class(
     #' A vector with the elements of the lower cone (that is, its lower bounds).
     #'
     #' @export
+    #' @importFrom Matrix which
     lower_cone = function(id) {
 
       # Get the index of all sub-elements
@@ -293,6 +297,7 @@ Poset <- R6::R6Class(
     #' A vector with the elements of the upper cone (that is, its upper bounds).
     #'
     #' @export
+    #' @importFrom Matrix which t
     upper_cone = function(id) {
 
       # Get the index of all super-elements
@@ -395,10 +400,15 @@ Poset <- R6::R6Class(
         #' Available engines are \code{own} (uses ggplot2), \code{hasseDiagram} (uses the hasseDiagram package, which should be installed); and \code{POSetR}, which uses the POSetR package.
         #'
     #' @export
+    #' @importFrom parsec incidence2cover.incidence vertices
+    #' @importFrom igraph graph_from_adjacency_matrix
     plot = function(engine = c("own", "hasseDiagram",
                                "POSetR")) {
 
       engine <- match.arg(engine)
+
+      if (engine == "hasseDiagram" && !requireNamespace("hasseDiagram"))
+        engine <- "own"
 
       if (engine == "own") {
 
@@ -511,6 +521,8 @@ Poset <- R6::R6Class(
     #' @return An \code{igraph} object representing this poset.
     #'
     #' @export
+    #' @importFrom igraph graph_from_adjacency_matrix
+    #' @importFrom Matrix t
     as_graph = function() {
 
       igraph::graph_from_adjacency_matrix(Matrix::t(self$order))
@@ -524,7 +536,6 @@ Poset <- R6::R6Class(
     poset = NULL
 
   )
-
 
 )
 
