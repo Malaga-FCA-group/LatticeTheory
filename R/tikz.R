@@ -1,50 +1,46 @@
 #' @importFrom parsec incidence2cover.incidence vertices
 #' @importFrom glue glue
 tikz_lattice <- function(L,
-                         # label = "",
-                         # caption = "",
                          scale = c(1, 1),
-                         tags = L$names, ...) {
+                         tags = NA,
+                         latex_size = "\\normalsize",
+                         circle = FALSE,
+                         node_color = "black",
+                         ...) {
 
-  textmode <- length(tags) > 0
-  node <- ifelse(textmode, "textnode", "node")
+  textmode <- !rlang::is_na(tags)
+  node_style <- ifelse(textmode,
+                 ifelse(circle, "textnode",
+                        "textnode_rect"),
+                 "node")
+
+  pattern <- switch(
+    node_style,
+    "textnode" = "circle, fill=white, inner sep=1pt, minimum width=1pt",
+    "textnode_rect" = "fill=white, inner sep=1pt, minimum width=1pt",
+    "node" = "circle, draw, fill=white, {this_color}inner sep=1.5pt, minimum width=1pt"
+    )
 
   M <- as.matrix(L$reduced_matrix) |> t()
   y <- parsec::incidence2cover.incidence(M)
 
-  # y <- L$order
+  g <- igraph::graph_from_adjacency_matrix(t(y))
+  ly <- igraph::layout_with_sugiyama(g, maxiter = 100)$layout
 
-  vertices <- -parsec::vertices(y)
-
-  # g <- igraph::graph_from_adjacency_matrix(t(y))
-  # ly <- igraph::layout_with_sugiyama(g, maxiter = 100)$layout
-
-  # # if (equispaced) {
-  #   rg <- range(ly[, 1])
-  #   fr <- table(ly[, 2])
-  #   w <- max(fr)
-  #   d <- diff(rg)/(w - (w > 1))
-  #   ctr <- diff(rg)/2
-  #   xax <- tapply(ly[, 1], ly[, 2], function(x) {
-  #     res <- order(x) - 1
-  #     (res - median(res)) * d + ctr
-  #   })
-  #   hgt <- max(ly[, 2])
-  #   for (i in 1:hgt) ly[ly[, 2] == i, 1] <- xax[[as.character(i)]]
-  # # }
-
-  # vertices <- ly
-  # vertices <- as.data.frame(ly)
+  vertices <- ly
+  vertices <- as.data.frame(ly)
   colnames(vertices) <- c("x", "y")
 
+  vertices$y <- 0.8 * vertices$y
   # Reverse x values:
-  m <- min(vertices$x)
-  M <- max(vertices$x)
+  # m <- min(vertices$x)
+  # M <- max(vertices$x)
+  #
+  # vertices$x <- M + m - vertices$x
 
-  vertices$x <- M + m - vertices$x
 
   lab <- rownames(y)
-  include <- "\\usepackage{tikz}\n\\tikzstyle{node}=[circle, draw, fill=white, inner sep=1pt, minimum width=1pt]\n\\tikzstyle{textnode}=[circle, fill=white, inner sep=1pt, minimum width=1pt]"
+  include <- "\\usepackage{tikz}\n"
   # begin <- paste("\\begin{figure}[!h]\n\\label{", label, "}\n\\centering\n\\begin{tikzpicture}[scale=1.2]\n",
   #                sep = ""
   # )
@@ -54,26 +50,42 @@ tikz_lattice <- function(L,
   n <- nrow(y)
   nodes <- rep("", n)
 
+  stopifnot(length(node_color) == 1 || length(node_color) == n)
+
+  if (length(node_color) == 1) node_color <- rep(node_color, n)
+
+  node_colors <- paste0("\\color{", node_color, "}")
+
   for (i in 1:n) {
 
-    # str <- ""
-    # if (tags[i] != "") {
-    #   str <- glue::glue("[label={{\\tiny {tags[i]}}}]")
-    # }
+    if (textmode) {
+
+      this_label <- glue::glue(
+        "{latex_size}${node_colors[i]}{tags[i]}$"
+      )
+
+    } else {
+
+      this_label <- ""
+
+    }
+
+    if (node_color[i] != "black") {
+
+      this_color <- glue::glue(
+        "color={node_color[i]}, ")
+
+    } else {
+
+      this_color <- ""
+
+    }
+    this_node <- glue::glue(pattern)
 
     nodes[i] <- glue::glue(
-      "\\node({i}) at ({vertices$x[i] * scale[1]}, {vertices$y[i] * scale[2]})[{node}]{{${tags[i]}$}};"#{{}};"
+      "\\node({i}) at ({vertices$x[i] * scale[1]}, {vertices$y[i] * scale[2]})[{this_node}]{{{this_label}}};"#{{}};"
     )
 
-    # nodes[i] <- glue::glue(
-    #   "\\node({i}) at ({vertices$x[i] * scale[1]}, {vertices$y[i] * scale[2]})[auto, scale = 0.2]{{{tags[i]}}};"
-    # )
-
-    # nodes[i] <- paste("\\node(", i, ") at (", vertices$x[i] *
-    #   scale[1], ",", vertices$y[i] * scale[2], ")[node]{",
-    # lab[i], "};\n",
-    # sep = ""
-    # )
   }
   k <- sum(M)
   lines <- rep("", k)
@@ -102,12 +114,22 @@ tikz_lattice <- function(L,
   # )
   #
   message(glue::glue("You should include\n{include}\nin your document"))
-  return(paste(begin,
-               paste(nodes, collapse = "\n"),
-               paste(lines, collapse = "\n"),
-               end,
-               sep = "\n"
-  ))
+
+  final_str <- paste(
+    begin,
+    paste(nodes, collapse = "\n"),
+    paste(lines, collapse = "\n"),
+    end,
+    sep = "\n"
+  )
+
+  if (rlang::is_interactive()) {
+
+    cat(final_str)
+    return(invisible(final_str))
+
+  }
+  return(final_str)
 
 }
 

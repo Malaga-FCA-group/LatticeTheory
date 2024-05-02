@@ -61,6 +61,7 @@ Poset <- R6::R6Class(
         "Poset with {length(self$names)} elements."
       ) |> cat()
 
+      colnames(self$order) <- rownames(self$order) <- self$names
       print_poset(self$order)
 
     },
@@ -95,6 +96,8 @@ Poset <- R6::R6Class(
       if (length(B) == 0) B <- self$names
 
       if (length(B) == 1) return(B)
+
+      colnames(self$order) <- rownames(self$order) <- self$names
 
       B[Matrix::which(Matrix::colSums(self$order[B, B]) == 1)]
 
@@ -140,6 +143,8 @@ Poset <- R6::R6Class(
       if (length(B) == 0) B <- self$names
 
       if (length(B) == 1) return(B)
+
+      colnames(self$order) <- rownames(self$order) <- self$names
 
       B[Matrix::which(Matrix::rowSums(self$order[B, B]) == 1)]
 
@@ -280,6 +285,8 @@ Poset <- R6::R6Class(
     #' @importFrom Matrix which
     lower_cone = function(id) {
 
+      colnames(self$order) <- rownames(self$order) <- self$names
+
       # Get the index of all sub-elements
       M <- self$order[id, ]
       candidates <- Matrix::which(M > 0)
@@ -300,6 +307,8 @@ Poset <- R6::R6Class(
     #' @importFrom Matrix which t
     upper_cone = function(id) {
 
+      colnames(self$order) <- rownames(self$order) <- self$names
+
       # Get the index of all super-elements
       M <- Matrix::t(self$order)[id, ]
       candidates <- Matrix::which(M > 0)
@@ -319,6 +328,9 @@ Poset <- R6::R6Class(
     #' @export
     lower_neighbours = function(id) {
 
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
+
       self$names[which(self$reduced_matrix[id, ] > 0)]
 
     },
@@ -333,6 +345,9 @@ Poset <- R6::R6Class(
     #'
     #' @export
     upper_neighbours = function(id) {
+
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
 
       self$names[which(self$reduced_matrix[, id] > 0)]
 
@@ -349,6 +364,8 @@ Poset <- R6::R6Class(
     #'
     #' @export
     is_lower_than = function(a, b) {
+
+      colnames(self$order) <- rownames(self$order) <- self$names
 
       self$order[b, a]
 
@@ -382,6 +399,8 @@ Poset <- R6::R6Class(
 
       if (is_lattice(self)) {
 
+        colnames(self$order) <- rownames(self$order) <- self$names
+
         return(Lattice$new(self$order))
 
       } else {
@@ -401,11 +420,16 @@ Poset <- R6::R6Class(
         #'
     #' @export
     #' @importFrom parsec incidence2cover.incidence vertices
-    #' @importFrom igraph graph_from_adjacency_matrix
+    #' @importFrom igraph graph_from_adjacency_matrix layout_with_sugiyama
+    #' @importFrom ggraph autograph theme_graph
+    #' @importFrom ggplot2 margin
     plot = function(engine = c("own", "hasseDiagram",
                                "POSetR")) {
 
       engine <- match.arg(engine)
+
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
 
       if (engine == "hasseDiagram" && !requireNamespace("hasseDiagram"))
         engine <- "own"
@@ -415,12 +439,29 @@ Poset <- R6::R6Class(
         M <- as.matrix(self$reduced_matrix) |> t()
         y <- parsec::incidence2cover.incidence(M)
 
-        vertices <- -parsec::vertices(y)
-        g2 <- igraph::graph_from_adjacency_matrix(
-          self$reduced_matrix)
+        # vertices <- -parsec::vertices(y)
+        # g2 <- igraph::graph_from_adjacency_matrix(
+        #   self$reduced_matrix)
+        # g2$layout <- as.matrix(vertices)
+
+        g2 <- igraph::graph_from_adjacency_matrix(t(y))
+        ly <- igraph::layout_with_sugiyama(g2, maxiter = 100)$layout
+
+        vertices <- ly
+        # vertices <- as.data.frame(ly)
+        colnames(vertices) <- c("x", "y")
+
+        vertices[, "y"] <- 0.8 * vertices[, "y"]
+
         g2$layout <- as.matrix(vertices)
 
-        pl <- graph_plot(g2, node_label = name)
+        pl <- ggraph::autograph(g2,
+                          node_label = name) +
+          ggraph::theme_graph(
+            plot_margin = ggplot2::margin(5, 5, 5, 5),
+            caption_margin = ggplot2::margin(5, 5, 5, 5))
+
+        # pl <- graph_plot(g2, node_label = name)
         # g2 <- g2 |>
         #   tidygraph::as_tbl_graph()
         # tidygraph::.register_graph_context(g2)
@@ -485,6 +526,9 @@ Poset <- R6::R6Class(
     #' @export
     latex = function(...) {
 
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
+
       dots <- list(...)
       if (!("tags" %in% names(dots))) {
 
@@ -526,6 +570,72 @@ Poset <- R6::R6Class(
     as_graph = function() {
 
       igraph::graph_from_adjacency_matrix(Matrix::t(self$order))
+
+    },
+
+    #' @description
+    #' Context related to Poset
+    #'
+    #' @return The Formal Context object representing the incidence relation $(P, P, \le)$ where $P$ are the elements of this Poset. If the fcaR library is present, it returns a \code{FormalContext} object, otherwise, it simply returns the relation matrix.
+    #'
+    #' @export
+    #' @importFrom Matrix t
+    to_context = function() {
+
+      M <- Matrix::t(self$order)
+      rownames(M) <- colnames(M) <- self$names
+
+      if (requireNamespace("fcaR")) {
+
+        return(fcaR::FormalContext$new(M))
+
+      } else {
+
+        return(M)
+
+      }
+
+    },
+
+    #' @description
+    #' Completion of the Poset to Lattice
+    #'
+    #' @return The Dedekind-MacNeill completion of the Poset, as a \code{Lattice} object.
+    #'
+    #' @export
+    #' @importFrom Matrix as.matrix
+    #' @importFrom glue glue
+    #' @importFrom stringr str_length str_remove_all
+    completion = function() {
+
+      stopifnot(requireNamespace("fcaR"))
+
+      fc <- self$to_context()
+      fc$find_concepts()
+      order <- fcaR:::.subset(fc$concepts$extents())
+      new_names <- fcaR:::obtain_reduced_labels(
+        subconcept_matrix = order,
+        intents = fc$concepts$intents(),
+        attributes = fc$attributes,
+        latex = FALSE) |>
+        stringr::str_remove_all("[\\{|\\}]")
+
+      id_empty <- which(stringr::str_length(new_names) == 0)
+      if (length(id_empty) > 0) {
+
+        complete_names <- glue::glue(
+          "dmc-{seq_along(id_empty)}"
+        )
+
+        new_names[id_empty] <- complete_names
+
+      }
+
+      order <- t(Matrix::as.matrix(order))
+
+      colnames(order) <- rownames(order) <- new_names
+
+      return(Lattice$new(order))
 
     }
 

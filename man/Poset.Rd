@@ -41,6 +41,8 @@ This class implements the data structure and methods for partial ordered sets.
 \item \href{#method-Poset-plot}{\code{Poset$plot()}}
 \item \href{#method-Poset-latex}{\code{Poset$latex()}}
 \item \href{#method-Poset-as_graph}{\code{Poset$as_graph()}}
+\item \href{#method-Poset-to_context}{\code{Poset$to_context()}}
+\item \href{#method-Poset-completion}{\code{Poset$completion()}}
 \item \href{#method-Poset-clone}{\code{Poset$clone()}}
 }
 }
@@ -429,6 +431,32 @@ Poset as graph
 
 \subsection{Returns}{
 An \code{igraph} object representing this poset.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Poset-to_context"></a>}}
+\if{latex}{\out{\hypertarget{method-Poset-to_context}{}}}
+\subsection{Method \code{to_context()}}{
+Context related to Poset
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Poset$to_context()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+The Formal Context object representing the incidence relation $(P, P, \le)$ where $P$ are the elements of this Poset. If the fcaR library is present, it returns a \code{FormalContext} object, otherwise, it simply returns the relation matrix.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Poset-completion"></a>}}
+\if{latex}{\out{\hypertarget{method-Poset-completion}{}}}
+\subsection{Method \code{completion()}}{
+Completion of the Poset to Lattice
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Poset$completion()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+The Dedekind-MacNeill completion of the Poset, as a \code{Lattice} object.
 }
 }
 \if{html}{\out{<hr>}}

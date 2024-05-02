@@ -24,6 +24,7 @@ This class implements the data structure and methods for lattices.
 \item \href{#method-Lattice-chains}{\code{Lattice$chains()}}
 \item \href{#method-Lattice-context}{\code{Lattice$context()}}
 \item \href{#method-Lattice-dual}{\code{Lattice$dual()}}
+\item \href{#method-Lattice-latex}{\code{Lattice$latex()}}
 \item \href{#method-Lattice-clone}{\code{Lattice$clone()}}
 }
 }
@@ -31,10 +32,10 @@ This class implements the data structure and methods for lattices.
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="as_graph"><a href='../../LatticeTheory/html/Poset.html#method-Poset-as_graph'><code>LatticeTheory::Poset$as_graph()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="completion"><a href='../../LatticeTheory/html/Poset.html#method-Poset-completion'><code>LatticeTheory::Poset$completion()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="infimum"><a href='../../LatticeTheory/html/Poset.html#method-Poset-infimum'><code>LatticeTheory::Poset$infimum()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="initialize"><a href='../../LatticeTheory/html/Poset.html#method-Poset-initialize'><code>LatticeTheory::Poset$initialize()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="is_lower_than"><a href='../../LatticeTheory/html/Poset.html#method-Poset-is_lower_than'><code>LatticeTheory::Poset$is_lower_than()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="latex"><a href='../../LatticeTheory/html/Poset.html#method-Poset-latex'><code>LatticeTheory::Poset$latex()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="linear_extension"><a href='../../LatticeTheory/html/Poset.html#method-Poset-linear_extension'><code>LatticeTheory::Poset$linear_extension()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="lower_bounds"><a href='../../LatticeTheory/html/Poset.html#method-Poset-lower_bounds'><code>LatticeTheory::Poset$lower_bounds()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="lower_cone"><a href='../../LatticeTheory/html/Poset.html#method-Poset-lower_cone'><code>LatticeTheory::Poset$lower_cone()</code></a></span></li>
@@ -46,6 +47,7 @@ This class implements the data structure and methods for lattices.
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="plot"><a href='../../LatticeTheory/html/Poset.html#method-Poset-plot'><code>LatticeTheory::Poset$plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="size"><a href='../../LatticeTheory/html/Poset.html#method-Poset-size'><code>LatticeTheory::Poset$size()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="supremum"><a href='../../LatticeTheory/html/Poset.html#method-Poset-supremum'><code>LatticeTheory::Poset$supremum()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="to_context"><a href='../../LatticeTheory/html/Poset.html#method-Poset-to_context'><code>LatticeTheory::Poset$to_context()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="to_lattice"><a href='../../LatticeTheory/html/Poset.html#method-Poset-to_lattice'><code>LatticeTheory::Poset$to_lattice()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="upper_bounds"><a href='../../LatticeTheory/html/Poset.html#method-Poset-upper_bounds'><code>LatticeTheory::Poset$upper_bounds()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="LatticeTheory" data-topic="Poset" data-id="upper_cone"><a href='../../LatticeTheory/html/Poset.html#method-Poset-upper_cone'><code>LatticeTheory::Poset$upper_cone()</code></a></span></li>
@@ -229,6 +231,26 @@ Dual of the lattice
 
 \subsection{Returns}{
 Another lattice where the order is reversed.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Lattice-latex"></a>}}
+\if{latex}{\out{\hypertarget{method-Lattice-latex}{}}}
+\subsection{Method \code{latex()}}{
+Hasse diagram of Poset
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Lattice$latex(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{Other arguments.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The LaTeX code to reproduce the Hasse diagram of the poset.
 }
 }
 \if{html}{\out{<hr>}}

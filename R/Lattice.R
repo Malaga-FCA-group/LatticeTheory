@@ -61,6 +61,9 @@ Lattice <- R6::R6Class(
     #'
     join_irreducibles = function() {
 
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
+
       self$names[which(Matrix::colSums(Matrix::t(self$reduced_matrix)) == 1)]
 
     },
@@ -74,6 +77,9 @@ Lattice <- R6::R6Class(
     #' @export
     #' @importFrom Matrix colSums
     meet_irreducibles = function() {
+
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
 
       M <- .reduce_transitivity(self$order)
 
@@ -109,6 +115,9 @@ Lattice <- R6::R6Class(
     #' @importFrom Matrix which rowSums colSums
     complements = function(a) {
 
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
+
       idx <- Matrix::which(self$order[, a] > 0)
 
       id_top <- Matrix::which(Matrix::colSums(self$order[idx, ]) == 1)
@@ -143,6 +152,8 @@ Lattice <- R6::R6Class(
     #' @importFrom Matrix t
     #' @importFrom igraph graph_from_adjacency_matrix all_simple_paths
     chains = function(a, b) {
+
+      colnames(self$order) <- rownames(self$order) <- self$names
 
       if (self$order[a, b]) {
 
@@ -189,7 +200,104 @@ Lattice <- R6::R6Class(
     #' @export
     dual = function() {
 
+      colnames(self$order) <- rownames(self$order) <- self$names
+
       Lattice$new(order = t(self$order))
+
+    },
+
+    #' @description
+    #' Hasse diagram of Poset
+    #'
+    #' @param ... Other arguments.
+    #'
+    #' @return The LaTeX code to reproduce the Hasse diagram of the poset.
+    #'
+    #' @export
+    latex = function(...) {
+
+      dots <- list(...)
+
+      colnames(self$order) <- rownames(self$order) <- self$names
+      colnames(self$reduced_matrix) <- rownames(self$reduced_matrix) <- self$names
+
+      if (!("tags" %in% names(dots))) {
+
+        dots$tags <- self$names
+
+        if ("show_names" %in% names(dots) && !dots$show_names) {
+
+          dots$tags <- NA
+
+        }
+
+
+
+      }
+      dots$L <- self
+      if ("scale" %in% names(dots)) {
+
+        if (length(dots$scale) == 1) {
+
+          dots$scale <- c(dots$scale,
+                          dots$scale)
+
+        }
+
+        if (length(dots$scale) > 2) {
+
+          dots$scale <- dots$scale[1:2]
+
+        }
+
+      }
+
+      if ("node_color" %in% names(dots)) {
+
+        colors <- names(dots$node_color)
+        my_colors <- rep("black", length(self$names))
+        names(my_colors) <- self$names
+
+        if (any(self$names %in% colors)) {
+
+          id <- match(colors, self$names)
+          id <- id[!is.na(id)]
+
+          my_colors[id] <- dots$node_color[colors %in% self$names]
+
+        }
+
+        if (!all(colors %in% self$names)) {
+
+          other_colors <- colors[!(colors %in% self$names)]
+
+          for (cl in other_colors) {
+
+            idx <- switch(
+              tolower(cl),
+              "join_irreducibles" = self$join_irreducibles(),
+              "meet_irreducibles" = self$meet_irreducibles(),
+              "atoms" = self$atoms(),
+              "coatoms" = self$coatoms(),
+              "top" = self$top(),
+              "bottom" = self$bottom()
+            )
+
+            my_colors[idx] <- dots$node_color[cl]
+
+          }
+
+        }
+
+        dots$node_color <- my_colors
+
+      }
+
+
+
+      do.call(tikz_lattice, dots)
+
+      # tikz_lattice(self, ..., tags = self$names)
 
     }
 
