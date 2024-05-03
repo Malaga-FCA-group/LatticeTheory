@@ -1,5 +1,5 @@
 Package: LatticeTheory
-Title: Managing of lattices
+Title: Managing of Lattices
 Version: 0.0.0.9000
 Authors@R: 
     c(person(given = "Domingo",
@@ -22,6 +22,8 @@ Suggests:
     covr,
     testthat (>= 3.0.0)
 Imports: 
+    mathjaxr,
+    visNetwork,
     POSetR,
     igraph,
     glue,
@@ -39,3 +41,4 @@ Imports:
     tidygraph,
     sfsmisc
 Config/testthat/edition: 3
+RdMacros: mathjaxr

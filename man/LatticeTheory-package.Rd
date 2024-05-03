@@ -4,7 +4,7 @@
 \name{LatticeTheory-package}
 \alias{LatticeTheory}
 \alias{LatticeTheory-package}
-\title{LatticeTheory: Managing of lattices}
+\title{LatticeTheory: Managing of Lattices}
 \description{
 Functions and data structures to work with posets and lattices.
 }
