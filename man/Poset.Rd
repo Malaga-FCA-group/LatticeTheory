@@ -39,6 +39,7 @@ This class implements the data structure and methods for partial ordered sets.
 \item \href{#method-Poset-linear_extension}{\code{Poset$linear_extension()}}
 \item \href{#method-Poset-to_lattice}{\code{Poset$to_lattice()}}
 \item \href{#method-Poset-plot}{\code{Poset$plot()}}
+\item \href{#method-Poset-iplot}{\code{Poset$iplot()}}
 \item \href{#method-Poset-latex}{\code{Poset$latex()}}
 \item \href{#method-Poset-as_graph}{\code{Poset$as_graph()}}
 \item \href{#method-Poset-to_context}{\code{Poset$to_context()}}
@@ -401,6 +402,16 @@ Available engines are \code{own} (uses ggplot2), \code{hasseDiagram} (uses the h
 
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Poset-iplot"></a>}}
+\if{latex}{\out{\hypertarget{method-Poset-iplot}{}}}
+\subsection{Method \code{iplot()}}{
+Interactive plot
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Poset$iplot()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Poset-latex"></a>}}
 \if{latex}{\out{\hypertarget{method-Poset-latex}{}}}
 \subsection{Method \code{latex()}}{
@@ -437,13 +448,13 @@ An \code{igraph} object representing this poset.
 \if{html}{\out{<a id="method-Poset-to_context"></a>}}
 \if{latex}{\out{\hypertarget{method-Poset-to_context}{}}}
 \subsection{Method \code{to_context()}}{
-Context related to Poset
+\loadmathjax Context related to Poset
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Poset$to_context()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-The Formal Context object representing the incidence relation $(P, P, \le)$ where $P$ are the elements of this Poset. If the fcaR library is present, it returns a \code{FormalContext} object, otherwise, it simply returns the relation matrix.
+The Formal Context object representing the incidence relation \mjseqn{(P, P, \le)} where $P$ are the elements of this Poset. If the fcaR library is present, it returns a \code{FormalContext} object, otherwise, it simply returns the relation matrix.
 }
 }
 \if{html}{\out{<hr>}}

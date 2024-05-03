@@ -517,6 +517,46 @@ Poset <- R6::R6Class(
     },
 
     #' @description
+    #' Interactive plot
+    #' @import visNetwork
+    #' @importFrom glue glue
+    iplot = function() {
+
+      M <- self$order |>
+        .reduce_transitivity()
+      g <- igraph::graph_from_adjacency_matrix(
+        M)
+
+      vis_data <- visNetwork::toVisNetworkData(g)
+      vis_data$nodes <- vis_data$nodes |>
+        dplyr::mutate(title = glue::glue(
+          "Element {label}"
+        ))
+
+
+      visNetwork::visNetwork(
+        nodes = vis_data$nodes,
+        edges = vis_data$edges) |>
+        visNetwork::visIgraphLayout(
+          layout = "layout_with_sugiyama") |>
+        visNetwork::visOptions(
+          highlightNearest = list(
+            enabled = TRUE,
+            algorithm = "hierarchical",
+            labelOnly = FALSE),
+          nodesIdSelection = TRUE) |>
+        visNetwork::visEdges(
+          arrows = list("to" = FALSE),
+          smooth = TRUE
+        ) |>
+        visNetwork::visNodes(
+          fixed = TRUE
+        ) |>
+        visNetwork::visLayout(randomSeed = 130301)
+
+    },
+
+    #' @description
     #' Hasse diagram of Poset
     #'
     #' @param ... Other arguments.
@@ -574,9 +614,9 @@ Poset <- R6::R6Class(
     },
 
     #' @description
-    #' Context related to Poset
+    #' \loadmathjax Context related to Poset
     #'
-    #' @return The Formal Context object representing the incidence relation $(P, P, \le)$ where $P$ are the elements of this Poset. If the fcaR library is present, it returns a \code{FormalContext} object, otherwise, it simply returns the relation matrix.
+    #' @return The Formal Context object representing the incidence relation \mjseqn{(P, P, \le)} where $P$ are the elements of this Poset. If the fcaR library is present, it returns a \code{FormalContext} object, otherwise, it simply returns the relation matrix.
     #'
     #' @export
     #' @importFrom Matrix t

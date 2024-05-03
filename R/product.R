@@ -8,8 +8,8 @@
 #' @return The product poset.
 #'
 #' @examples
-#' P1 <- Poset$new(matrix(c(0, 1, 0, 0, 0, 1), ncol = 2))
-#' P2 <- Poset$new(matrix(c(0, 1, 0, 0, 0, 1), ncol = 2))
+#' P1 <- Poset$new(matrix(c(0, 1, 0, 1), ncol = 2))
+#' P2 <- Poset$new(matrix(c(0, 1, 0, 0), ncol = 2))
 #' P <- P1 %p% P2
 #'
 #' @export
