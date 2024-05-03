@@ -10,10 +10,10 @@
 #' @examples
 #' P1 <- Poset$new(matrix(c(0, 1, 0, 0, 0, 1), ncol = 2))
 #' P2 <- Poset$new(matrix(c(0, 1, 0, 0, 0, 1), ncol = 2))
-#' P <- P1 %*% P2
+#' P <- P1 %p% P2
 #'
 #' @export
-`%*%` <- function(P1, P2) {
+`%p%` <- function(P1, P2) {
 
   # Extract the order and names of the first poset.
   M1 <- P1$order
