@@ -7,7 +7,7 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-The goal of LatticeTheory is to implement functions related to LatticeTheory for the course on Algebraic Structures
+The goal of the LatticeTheory package is to implement mathematical functions and visualization tools for lattice theory for the R programming language
 
 ## Installation
 
