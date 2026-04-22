@@ -4,3 +4,6 @@
 .Ruserdata
 docs
 .DS_Store
+*.o
+*.so
+*.dll
